@@ -19,7 +19,7 @@ const initApp = ({ showLOG = false, serverTimeout = 30000 } = {}) => {
     if (showLOG) app.use(loggerMid);
     app.use(timeoutMid(serverTimeout));
     // app.use(securityMid);
-    app.use('/v1', routes);
+    app.use(routes);
     app.use(...errorHandler);
     return app;
 };
