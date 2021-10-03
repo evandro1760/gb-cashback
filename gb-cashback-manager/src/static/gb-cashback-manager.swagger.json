@@ -1,203 +1,464 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "gb-cashback-manager",
-        "version": "1.0.0",
-        "title": "gb-cashback-manager",
-        "termsOfService": "urn:tos",
-        "contact": {
-            "name": "Evandro Junior",
-            "email": "evandro.1760@gmail.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0"
-        }
-    },
-    "tags": [
-        {
-            "name": "health-check"
-        }
-    ],
-    "paths": {
-        "/actuator/health": {
-            "get": {
-                "tags": [
-                    "health-check"
-                ],
-                "summary": "Validar saúde da aplicação",
-                "operationId": "getActuatorHealth",
-                "produces": [
-                    "application/json"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Resumo da aplicação",
-                        "schema": {
-                            "$ref": "#/definitions/getActuatorHealthResponse"
-                        },
-                        "examples": {
-                            "default": {
-                                "name": "gb-cashback-manager",
-                                "message": "application online",
-                                "version": "1.0.0",
-                                "description": "Serviço responsável por agregar funcionalidades de cashback para revendedores.",
-                                "datetime": "2019-08-24T14:15:22Z"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Erro interno na aplicação",
-                        "schema": {
-                            "$ref": "#/definitions/defaultError500Response"
-                        },
-                        "examples": {
-                            "default": {
-                                "error": true,
-                                "message": "unexpected error encountered"
-                            }
-                        }
-                    },
-                    "504": {
-                        "description": "Tempo de resposta esgotado",
-                        "schema": {
-                            "$ref": "#/definitions/timeoutResponse"
-                        },
-                        "examples": {
-                            "default": {
-                                "error": true,
-                                "message": "timeout"
-                            }
-                        }
-                    }
-                },
-                "security": [],
-                "description": "Validar saúde da aplicação"
-            }
-        }
-    },
-    "definitions": {
-        "getActuatorHealthResponse": {
-            "description": "",
-            "type": "object",
-            "x-examples": {},
-            "properties": {
-                "name": {
-                    "type": "string",
-                    "minLength": 1,
-                    "example": "gb-cashback-manager"
-                },
-                "message": {
-                    "type": "string",
-                    "minLength": 1,
-                    "enum": [
-                        "application online"
-                    ]
-                },
-                "version": {
-                    "type": "string",
-                    "minLength": 1,
-                    "example": "1.0.0"
-                },
-                "description": {
-                    "type": "string",
-                    "minLength": 1,
-                    "example": "Serviço responsável por agregar funcionalidades de cashback para revendedores."
-                },
-                "datetime": {
-                    "type": "string",
-                    "minLength": 1,
-                    "format": "date-time"
-                }
-            },
-            "required": [
-                "name",
-                "message",
-                "version",
-                "description",
-                "datetime"
-            ],
-            "title": "Get /actuator/health OK response"
-        },
-        "defaultError401Response": {
-            "required": [
-                "error",
-                "message"
-            ],
-            "title": "Default response 401",
-            "type": "object",
-            "properties": {
-                "error": {
-                    "example": true,
-                    "type": "boolean"
-                },
-                "message": {
-                    "example": "invalid credentials",
-                    "type": "string"
-                }
-            }
-        },
-        "defaultError500Response": {
-            "required": [
-                "error",
-                "message"
-            ],
-            "title": "Default response 500",
-            "type": "object",
-            "properties": {
-                "error": {
-                    "example": true,
-                    "type": "boolean"
-                },
-                "message": {
-                    "example": "unexpected error encountered",
-                    "type": "string"
-                }
-            }
-        },
-        "timeoutResponse": {
-            "required": [
-                "error",
-                "message"
-            ],
-            "title": "Timeout response",
-            "type": "object",
-            "properties": {
-                "error": {
-                    "example": true,
-                    "type": "boolean"
-                },
-                "message": {
-                    "example": "timeout",
-                    "type": "string"
-                }
-            }
-        },
-        "defaultError503Response": {
-            "required": [
-                "error",
-                "message"
-            ],
-            "title": "Default response 503",
-            "type": "object",
-            "properties": {
-                "error": {
-                    "example": true,
-                    "type": "boolean"
-                },
-                "message": {
-                    "example": "consulted service is unavailable or returned an unexpected response",
-                    "type": "string"
-                }
-            }
-        }
-    },
-    "securityDefinitions": {},
-    "responses": {},
-    "produces": [
-        "application/json"
-    ],
-    "consumes": [
-        "application/json"
-    ]
+	"swagger": "2.0",
+	"info": {
+		"description": "gb-cashback-manager",
+		"version": "1.0.0",
+		"title": "gb-cashback-manager",
+		"termsOfService": "urn:tos",
+		"contact": {
+			"name": "Evandro Junior",
+			"email": "evandro.1760@gmail.com"
+		},
+		"license": {
+			"name": "Apache 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0"
+		}
+	},
+	"tags": [
+		{
+			"name": "auth-operations"
+		},
+		{
+			"name": "health-check"
+		},
+		{
+			"name": "purchase-operations"
+		}
+	],
+	"paths": {
+		"/actuator/health": {
+			"get": {
+				"tags": [
+					"health-check"
+				],
+				"summary": "Validar saúde da aplicação",
+				"operationId": "getActuatorHealth",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Resumo da aplicação",
+						"schema": {
+							"$ref": "#/definitions/getActuatorHealthResponse"
+						},
+						"examples": {
+							"default": {
+								"name": "gb-cashback-manager",
+								"message": "application online",
+								"version": "1.0.0",
+								"description": "Serviço responsável por agregar funcionalidades de cashback para revendedores.",
+								"datetime": "2019-08-24T14:15:22Z"
+							}
+						}
+					},
+					"500": {
+						"description": "Erro interno na aplicação",
+						"schema": {
+							"$ref": "#/definitions/defaultError500Response"
+						},
+						"examples": {
+							"default": {
+								"error": true,
+								"message": "unexpected error encountered"
+							}
+						}
+					},
+					"504": {
+						"description": "Tempo de resposta esgotado",
+						"schema": {
+							"$ref": "#/definitions/timeoutResponse"
+						},
+						"examples": {
+							"default": {
+								"error": true,
+								"message": "timeout"
+							}
+						}
+					}
+				},
+				"security": [],
+				"description": "Validar saúde da aplicação",
+				"x-internal": false
+			}
+		},
+		"/v1/retailer/signup": {
+			"post": {
+				"summary": "Cadastro de um novo Revendedor",
+				"operationId": "post-v1-retailer-signup",
+				"responses": {
+					"201": {
+						"description": "Revendedor cadastrado com sucesso.",
+						"schema": {
+							"$ref": "#/definitions/retailerSignUpResponse"
+						},
+						"headers": {
+							"transactionId": {
+								"type": "string",
+								"description": "ID da operação realizada. Útil para fins de depuração.",
+								"format": "uuid"
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição contém algum valor inválido.",
+						"schema": {
+							"$ref": "#/definitions/retailerSignUp400Response"
+						},
+						"headers": {
+							"transactionId": {
+								"type": "string",
+								"description": "ID da operação realizada. Útil para fins de depuração.",
+								"format": "uuid"
+							}
+						}
+					},
+					"409": {
+						"description": "Usuário com mesmo CPF ou E-mail já existe.",
+						"schema": {
+							"$ref": "#/definitions/retailerSignUp409Response"
+						},
+						"headers": {
+							"transactionId": {
+								"type": "string",
+								"description": "ID da operação realizada. Útil para fins de depuração.",
+								"format": "uuid"
+							}
+						}
+					},
+					"500": {
+						"description": "Erro inesperado na aplicação.",
+						"schema": {
+							"$ref": "#/definitions/defaultError500Response"
+						},
+						"headers": {
+							"transactionId": {
+								"type": "string",
+								"description": "ID da operação realizada. Útil para fins de depuração.",
+								"format": "uuid"
+							}
+						}
+					},
+					"504": {
+						"description": "Tempo de resposta esgotado.",
+						"schema": {
+							"$ref": "#/definitions/timeoutResponse"
+						},
+						"headers": {
+							"transactionId": {
+								"type": "string",
+								"description": "ID da operação realizada. Útil para fins de depuração.",
+								"format": "uuid"
+							}
+						}
+					}
+				},
+				"tags": [
+					"auth-operations"
+				],
+				"description": "",
+				"parameters": [
+					{
+						"in": "body",
+						"name": "body",
+						"schema": {
+							"$ref": "#/definitions/retailerSignUpRequest"
+						}
+					}
+				]
+			}
+		},
+		"/v1/retailer/signin": {
+			"post": {
+				"summary": "",
+				"operationId": "post-v1-retailer-signin",
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"tags": [
+					"auth-operations"
+				]
+			}
+		},
+		"/v1/retailer/purchase": {
+			"parameters": [],
+			"post": {
+				"summary": "",
+				"operationId": "post-v1-retailer-purchase",
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"tags": [
+					"purchase-operations"
+				]
+			}
+		},
+		"/v1/retailer/purchases": {
+			"get": {
+				"summary": "Your GET endpoint",
+				"tags": [
+					"purchase-operations"
+				],
+				"responses": {},
+				"operationId": "get-v1-purchases"
+			},
+			"parameters": []
+		},
+		"/v1/retailer/cashback/balance": {
+			"get": {
+				"summary": "Your GET endpoint",
+				"tags": [
+					"cashback-operations"
+				],
+				"responses": {},
+				"operationId": "get-v1-retailer-cashback-balance"
+			}
+		}
+	},
+	"definitions": {
+		"getActuatorHealthResponse": {
+			"description": "",
+			"type": "object",
+			"x-examples": {},
+			"properties": {
+				"name": {
+					"type": "string",
+					"minLength": 1,
+					"example": "gb-cashback-manager"
+				},
+				"message": {
+					"type": "string",
+					"minLength": 1,
+					"enum": [
+						"application online"
+					]
+				},
+				"version": {
+					"type": "string",
+					"minLength": 1,
+					"example": "1.0.0"
+				},
+				"description": {
+					"type": "string",
+					"minLength": 1,
+					"example": "Serviço responsável por agregar funcionalidades de cashback para revendedores."
+				},
+				"datetime": {
+					"type": "string",
+					"minLength": 1,
+					"format": "date-time"
+				}
+			},
+			"required": [
+				"name",
+				"message",
+				"version",
+				"description",
+				"datetime"
+			],
+			"title": "Get /actuator/health OK response"
+		},
+		"defaultError401Response": {
+			"required": [
+				"error",
+				"message"
+			],
+			"title": "Default response 401",
+			"type": "object",
+			"properties": {
+				"error": {
+					"example": true,
+					"type": "boolean"
+				},
+				"message": {
+					"example": "invalid credentials",
+					"type": "string"
+				}
+			}
+		},
+		"retailerSignUpRequest": {
+			"title": "retailerSignUpRequest",
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string",
+					"description": "Nome completo do revendedor.",
+					"example": "Ana Maria de Souza",
+					"minLength": 1
+				},
+				"cpf": {
+					"type": "string",
+					"description": "CPF do revendedor. Este deve ser válido e com qualquer separador entre os 11 digitos.",
+					"example": "67176980047",
+					"minLength": 11
+				},
+				"email": {
+					"type": "string",
+					"format": "email",
+					"example": "ana.souza@grupoboticario.com.br",
+					"description": "E-mail do revendedor."
+				},
+				"password": {
+					"type": "string",
+					"format": "password",
+					"example": "@123abc",
+					"minLength": 8,
+					"description": "Senha para acesso a conta do revendedor."
+				}
+			},
+			"required": [
+				"name",
+				"cpf",
+				"email",
+				"password"
+			]
+		},
+		"retailerSignUpResponse": {
+			"title": "retailerSignUpResponse",
+			"type": "object",
+			"properties": {
+				"message": {
+					"type": "string"
+				},
+				"timestamp": {
+					"type": "string",
+					"format": "date-time",
+					"description": "Quando a requisição do usuário foi recebida."
+				}
+			},
+			"required": [
+				"timestamp"
+			]
+		},
+		"retailerSignUp400Response": {
+			"title": "retailerSignUp400Response",
+			"type": "object",
+			"properties": {
+				"errorMessage": {
+					"type": "string",
+					"description": "Mensagem de erro.",
+					"enum": [
+						"Invalid cpf format. Must be a string with a valid CPF at least 11 digits",
+						"Invalid email format. Must be a string with a valid email",
+						"Invalid name format. Must be a string with least 1 character",
+						"Invalid password format. Must be a string with least 8 characters"
+					]
+				},
+				"timestamp": {
+					"type": "string",
+					"format": "date-time",
+					"description": "Quando a requisição do usuário foi recebida."
+				},
+				"transactionId": {
+					"type": "string",
+					"format": "uuid",
+					"description": "ID da operação realizada. Útil para fins de depuração."
+				}
+			},
+			"required": [
+				"errorMessage",
+				"timestamp",
+				"transactionId"
+			]
+		},
+		"retailerSignUp409Response": {
+			"title": "retailerSignUp409Response",
+			"type": "object",
+			"properties": {
+				"errorMessage": {
+					"type": "string",
+					"description": "Mensagem de erro.",
+					"enum": [
+						"Already exists a user with the same cpf or email"
+					]
+				},
+				"timestamp": {
+					"type": "string",
+					"format": "date-time",
+					"description": "Quando a requisição do usuário foi recebida."
+				},
+				"transactionId": {
+					"type": "string",
+					"format": "uuid",
+					"description": "ID da operação realizada. Útil para fins de depuração."
+				}
+			},
+			"required": [
+				"errorMessage",
+				"timestamp",
+				"transactionId"
+			]
+		},
+		"defaultError500Response": {
+			"title": "defaultError500Response",
+			"type": "object",
+			"properties": {
+				"errorMessage": {
+					"type": "string",
+					"description": "Mensagem de erro.",
+					"example": "unexpected error encountered"
+				},
+				"timestamp": {
+					"type": "string",
+					"format": "date-time",
+					"description": "Quando a requisição do usuário foi recebida."
+				},
+				"transactionId": {
+					"type": "string",
+					"format": "uuid",
+					"description": "ID da operação realizada. Útil para fins de depuração."
+				}
+			},
+			"required": [
+				"errorMessage",
+				"timestamp",
+				"transactionId"
+			]
+		},
+		"timeoutResponse": {
+			"title": "timeoutResponse",
+			"type": "object",
+			"properties": {
+				"errorMessage": {
+					"type": "string",
+					"description": "Mensagem de erro.",
+					"example": "timeout"
+				},
+				"timestamp": {
+					"type": "string",
+					"format": "date-time",
+					"description": "Quando a requisição do usuário foi recebida."
+				},
+				"transactionId": {
+					"type": "string",
+					"format": "uuid",
+					"description": "ID da operação realizada. Útil para fins de depuração."
+				}
+			},
+			"required": [
+				"errorMessage",
+				"timestamp",
+				"transactionId"
+			]
+		}
+	},
+	"securityDefinitions": {
+		"Authorization": {
+			"name": "Authorization",
+			"type": "apiKey",
+			"in": "header",
+			"description": "Token de sessão do revendedor. É obtido ao realizar SigIn."
+		}
+	},
+	"responses": {},
+	"produces": [
+		"application/json"
+	],
+	"consumes": [
+		"application/json"
+	]
 }
