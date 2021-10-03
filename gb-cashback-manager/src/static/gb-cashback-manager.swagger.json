@@ -1,0 +1,203 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "gb-cashback-manager",
+        "version": "1.0.0",
+        "title": "gb-cashback-manager",
+        "termsOfService": "urn:tos",
+        "contact": {
+            "name": "Evandro Junior",
+            "email": "evandro.1760@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "tags": [
+        {
+            "name": "health-check"
+        }
+    ],
+    "paths": {
+        "/actuator/health": {
+            "get": {
+                "tags": [
+                    "health-check"
+                ],
+                "summary": "Validar saúde da aplicação",
+                "operationId": "getActuatorHealth",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resumo da aplicação",
+                        "schema": {
+                            "$ref": "#/definitions/getActuatorHealthResponse"
+                        },
+                        "examples": {
+                            "default": {
+                                "name": "gb-cashback-manager",
+                                "message": "application online",
+                                "version": "1.0.0",
+                                "description": "Serviço responsável por agregar funcionalidades de cashback para revendedores.",
+                                "datetime": "2019-08-24T14:15:22Z"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno na aplicação",
+                        "schema": {
+                            "$ref": "#/definitions/defaultError500Response"
+                        },
+                        "examples": {
+                            "default": {
+                                "error": true,
+                                "message": "unexpected error encountered"
+                            }
+                        }
+                    },
+                    "504": {
+                        "description": "Tempo de resposta esgotado",
+                        "schema": {
+                            "$ref": "#/definitions/timeoutResponse"
+                        },
+                        "examples": {
+                            "default": {
+                                "error": true,
+                                "message": "timeout"
+                            }
+                        }
+                    }
+                },
+                "security": [],
+                "description": "Validar saúde da aplicação"
+            }
+        }
+    },
+    "definitions": {
+        "getActuatorHealthResponse": {
+            "description": "",
+            "type": "object",
+            "x-examples": {},
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "gb-cashback-manager"
+                },
+                "message": {
+                    "type": "string",
+                    "minLength": 1,
+                    "enum": [
+                        "application online"
+                    ]
+                },
+                "version": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "1.0.0"
+                },
+                "description": {
+                    "type": "string",
+                    "minLength": 1,
+                    "example": "Serviço responsável por agregar funcionalidades de cashback para revendedores."
+                },
+                "datetime": {
+                    "type": "string",
+                    "minLength": 1,
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "name",
+                "message",
+                "version",
+                "description",
+                "datetime"
+            ],
+            "title": "Get /actuator/health OK response"
+        },
+        "defaultError401Response": {
+            "required": [
+                "error",
+                "message"
+            ],
+            "title": "Default response 401",
+            "type": "object",
+            "properties": {
+                "error": {
+                    "example": true,
+                    "type": "boolean"
+                },
+                "message": {
+                    "example": "invalid credentials",
+                    "type": "string"
+                }
+            }
+        },
+        "defaultError500Response": {
+            "required": [
+                "error",
+                "message"
+            ],
+            "title": "Default response 500",
+            "type": "object",
+            "properties": {
+                "error": {
+                    "example": true,
+                    "type": "boolean"
+                },
+                "message": {
+                    "example": "unexpected error encountered",
+                    "type": "string"
+                }
+            }
+        },
+        "timeoutResponse": {
+            "required": [
+                "error",
+                "message"
+            ],
+            "title": "Timeout response",
+            "type": "object",
+            "properties": {
+                "error": {
+                    "example": true,
+                    "type": "boolean"
+                },
+                "message": {
+                    "example": "timeout",
+                    "type": "string"
+                }
+            }
+        },
+        "defaultError503Response": {
+            "required": [
+                "error",
+                "message"
+            ],
+            "title": "Default response 503",
+            "type": "object",
+            "properties": {
+                "error": {
+                    "example": true,
+                    "type": "boolean"
+                },
+                "message": {
+                    "example": "consulted service is unavailable or returned an unexpected response",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {},
+    "responses": {},
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ]
+}
