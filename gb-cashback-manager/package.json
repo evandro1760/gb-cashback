@@ -1,0 +1,48 @@
+{
+    "name": "gb-cashback-manager",
+    "version": "1.0.0",
+    "engines": {
+        "node": "14.17.3"
+    },
+    "description": "Serviço responsável por agregar funcionalidades de cashback para revendedores.",
+    "main": "server.js",
+    "type": "module",
+    "scripts": {
+        "start": "node server.js",
+        "test": "jest /tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/evandro1760/gb-cashback.git"
+    },
+    "author": "Evandro Junior <evandro.1760@gmailcom>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/evandro1760/gb-cashback/issues"
+    },
+    "homepage": "https://github.com/evandro1760/gb-cashback#readme",
+    "dependencies": {
+        "axios": "0.22.0",
+        "crypto-js": "4.1.1",
+        "dotenv": "10.0.0",
+        "express": "4.17.1",
+        "http-errors": "1.8.0",
+        "module-alias": "2.2.2",
+        "pino": "6.13.3",
+        "express-pino-logger": "6.0.0",
+        "qs": "6.10.1"
+    },
+    "devDependencies": {
+        "@babel/preset-env": "7.12.16",
+        "@jest/globals": "26.6.2",
+        "babel-jest": "26.6.3",
+        "eslint": "7.19.0",
+        "eslint-config-airbnb-base": "14.2.1",
+        "eslint-plugin-import": "2.22.1",
+        "eslint-plugin-sonarjs": "0.5.0",
+        "jest": "26.6.3",
+        "jest-openapi": "0.11.0",
+        "regenerator-runtime": "0.13.7",
+        "supertest": "6.1.3"
+    }
+}

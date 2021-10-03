@@ -1,0 +1,15 @@
+{
+    "transform": {
+        "^.+\\.[t|j]sx?$": "babel-jest"
+    },
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+        "lcov"
+    ],
+    "testEnvironment": "node",
+    "verbose": true,
+    "moduleNameMapper": {
+        "@src(.*)$": "<rootDir>/src/$1"
+    }
+}
