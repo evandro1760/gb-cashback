@@ -257,26 +257,225 @@
         "/v1/retailer/purchase": {
             "parameters": [],
             "post": {
-                "summary": "",
+                "summary": "Cadastro de Compra do Revendedor",
                 "operationId": "post-v1-retailer-purchase",
                 "responses": {
-                    "200": {
-                        "description": "OK"
+                    "201": {
+                        "description": "Compra cadastrada com sucesso.",
+                        "schema": {
+                            "$ref": "#/definitions/postRetailerPurchaseResponse"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição contém algum valor inválido.",
+                        "schema": {
+                            "$ref": "#/definitions/postRetailerPurchase400Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token de sessão inválido.",
+                        "schema": {
+                            "$ref": "#/definitions/defaultError401Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Uma compra com mesmo código já foi cadastrada.",
+                        "schema": {
+                            "$ref": "#/definitions/postRetailerPurchase409Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro inesperado na aplicação.",
+                        "schema": {
+                            "$ref": "#/definitions/defaultError500Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "504": {
+                        "description": "Tempo de resposta esgotado.",
+                        "schema": {
+                            "$ref": "#/definitions/timeoutResponse"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
                     }
                 },
                 "tags": [
                     "purchase-operations"
+                ],
+                "description": "Cadastrar nova compra com código, valor e data da mesma. A compra será atribuída ao revendedor logado.",
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "schema": {
+                            "$ref": "#/definitions/postRetailerPurchaseRequest"
+                        }
+                    }
                 ]
             }
         },
         "/v1/retailer/purchases": {
             "get": {
-                "summary": "Your GET endpoint",
+                "summary": "Listar Compras cadastradas pelo Revendedor",
                 "tags": [
                     "purchase-operations"
                 ],
-                "responses": {},
-                "operationId": "get-v1-purchases"
+                "responses": {
+                    "200": {
+                        "description": "Compras cadastradas retornadas com sucesso.",
+                        "schema": {
+                            "$ref": "#/definitions/getRetailerPurchasesResponse"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token de sessão inválido.",
+                        "schema": {
+                            "$ref": "#/definitions/defaultError401Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não foram encontradas compras cadastradas para o revendedor que correspondam aos filtros.",
+                        "schema": {
+                            "$ref": "#/definitions/getRetailerPurchases404Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro inesperado na aplicação.",
+                        "schema": {
+                            "$ref": "#/definitions/defaultError500Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "504": {
+                        "description": "Tempo de resposta esgotado.",
+                        "schema": {
+                            "$ref": "#/definitions/timeoutResponse"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    }
+                },
+                "operationId": "get-v1-purchases",
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ],
+                "description": "Listar compras cadastradas retornando código, status, valor, porcentagem e valor de cashback.",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "in": "query",
+                        "name": "code",
+                        "description": "Filtrar compras pelo código"
+                    },
+                    {
+                        "type": "string",
+                        "in": "query",
+                        "name": "date",
+                        "description": "Filtrar compras por uma data no formato AAAA-MM-DD",
+                        "format": "date"
+                    },
+                    {
+                        "type": "string",
+                        "in": "query",
+                        "name": "status",
+                        "description": "Filtrar compras por status de cadastro"
+                    },
+                    {
+                        "type": "integer",
+                        "in": "query",
+                        "name": "page",
+                        "description": "Retornar compras de uma página",
+                        "format": "int64",
+                        "default": 1
+                    },
+                    {
+                        "type": "integer",
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Quantidade de compras retornadas por página",
+                        "default": 50,
+                        "format": "int64"
+                    }
+                ]
             },
             "parameters": []
         },
@@ -286,8 +485,92 @@
                 "tags": [
                     "cashback-operations"
                 ],
-                "responses": {},
-                "operationId": "get-v1-retailer-cashback-balance"
+                "responses": {
+                    "201": {
+                        "description": "Compra cadastrada com sucesso.",
+                        "schema": {
+                            "$ref": "#/definitions/postRetailerPurchaseResponse"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição contém algum valor inválido.",
+                        "schema": {
+                            "$ref": "#/definitions/postRetailerPurchase400Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token de sessão inválido.",
+                        "schema": {
+                            "$ref": "#/definitions/defaultError401Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Uma compra com mesmo código já foi cadastrada.",
+                        "schema": {
+                            "$ref": "#/definitions/postRetailerPurchase409Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro inesperado na aplicação.",
+                        "schema": {
+                            "$ref": "#/definitions/defaultError500Response"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    },
+                    "504": {
+                        "description": "Tempo de resposta esgotado.",
+                        "schema": {
+                            "$ref": "#/definitions/timeoutResponse"
+                        },
+                        "headers": {
+                            "transactionId": {
+                                "type": "string",
+                                "description": "ID da operação realizada. Útil para fins de depuração.",
+                                "format": "uuid"
+                            }
+                        }
+                    }
+                },
+                "operationId": "get-v1-retailer-cashback-balance",
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
             }
         }
     },
@@ -326,6 +609,35 @@
                 "timestamp"
             ]
         },
+        "defaultError401Response": {
+            "title": "defaultError401Response",
+            "type": "object",
+            "description": "",
+            "properties": {
+                "errorMessage": {
+                    "type": "string",
+                    "description": "Mensagem de erro.",
+                    "enum": [
+                        "Access token is invalid or expired"
+                    ]
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Quando a requisição do usuário foi recebida."
+                },
+                "transactionId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "ID da operação realizada. Útil para fins de depuração."
+                }
+            },
+            "required": [
+                "errorMessage",
+                "timestamp",
+                "transactionId"
+            ]
+        },
         "defaultError500Response": {
             "title": "defaultError500Response",
             "type": "object",
@@ -333,7 +645,7 @@
                 "errorMessage": {
                     "type": "string",
                     "description": "Mensagem de erro.",
-                    "example": "unexpected error encountered"
+                    "example": "Unexpected error encountered"
                 },
                 "timestamp": {
                     "type": "string",
@@ -359,7 +671,7 @@
                 "errorMessage": {
                     "type": "string",
                     "description": "Mensagem de erro.",
-                    "example": "timeout"
+                    "example": "Timeout"
                 },
                 "timestamp": {
                     "type": "string",
@@ -535,10 +847,11 @@
                     "description": "Token resultante do login de um revendedor. Deve ser guardado para uso nas demais requisições."
                 },
                 "expiresIn": {
-                    "type": "number",
+                    "type": "integer",
                     "example": 3600,
+                    "description": "Tempo, em segundos, de duração do accessToken.",
                     "minimum": 0,
-                    "description": "Tempo, em segundos, de duração do accessToken."
+                    "format": "int64"
                 },
                 "timestamp": {
                     "type": "string",
@@ -592,6 +905,270 @@
                     "description": "Mensagem de erro.",
                     "enum": [
                         "Username and/or password incorrect"
+                    ]
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Quando a requisição do usuário foi recebida."
+                },
+                "transactionId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "ID da operação realizada. Útil para fins de depuração."
+                }
+            },
+            "required": [
+                "errorMessage",
+                "timestamp",
+                "transactionId"
+            ]
+        },
+        "postRetailerPurchaseRequest": {
+            "title": "postRetailerPurchaseRequest",
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Código da compra realizada.",
+                    "example": "E123J456",
+                    "minLength": 1
+                },
+                "amount": {
+                    "type": "number",
+                    "description": "Valor da compra realizada.",
+                    "minimum": 0.01
+                },
+                "date": {
+                    "type": "string",
+                    "description": "Data da compra realizada.",
+                    "format": "date"
+                }
+            },
+            "required": [
+                "code",
+                "amount",
+                "date"
+            ]
+        },
+        "postRetailerPurchaseResponse": {
+            "title": "postRetailerPurchaseResponse",
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "Confirmação de cadastro com sucesso.",
+                    "enum": [
+                        "Successfully registered purchase"
+                    ]
+                },
+                "purchaseStatus": {
+                    "type": "string",
+                    "description": "Status do cadastro da Compra.",
+                    "enum": [
+                        "Em validação",
+                        "Aprovado",
+                        "Negado"
+                    ]
+                },
+                "retailerCpf": {
+                    "type": "string",
+                    "description": "CPF do Revendedor que realizou o cadastro da Compra.",
+                    "minLength": 11,
+                    "example": "67176980047"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Quando a requisição do usuário foi recebida."
+                }
+            },
+            "required": [
+                "message",
+                "purchaseStatus",
+                "retailerCpf",
+                "timestamp"
+            ]
+        },
+        "postRetailerPurchase400Response": {
+            "title": "postRetailerPurchase400Response",
+            "type": "object",
+            "description": "",
+            "properties": {
+                "errorMessage": {
+                    "type": "string",
+                    "description": "Mensagem de erro.",
+                    "enum": [
+                        "Invalid code format. Must be a string with least 1 character",
+                        "Invalid amount format. Must be a number greater than zero",
+                        "Invalid date format. Must be a valid date in format YYYY-MM-DD"
+                    ]
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Quando a requisição do usuário foi recebida."
+                },
+                "transactionId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "ID da operação realizada. Útil para fins de depuração."
+                }
+            },
+            "required": [
+                "errorMessage",
+                "timestamp",
+                "transactionId"
+            ]
+        },
+        "postRetailerPurchase409Response": {
+            "title": "postRetailerPurchase409Response",
+            "type": "object",
+            "properties": {
+                "errorMessage": {
+                    "type": "string",
+                    "description": "Mensagem de erro.",
+                    "enum": [
+                        "Already exists a purchase with the same code"
+                    ]
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Quando a requisição do usuário foi recebida."
+                },
+                "transactionId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "ID da operação realizada. Útil para fins de depuração."
+                }
+            },
+            "required": [
+                "errorMessage",
+                "timestamp",
+                "transactionId"
+            ]
+        },
+        "getRetailerPurchasesResponse": {
+            "title": "getRetailerPurchasesResponse",
+            "type": "object",
+            "description": "",
+            "properties": {
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Quando a requisição do usuário foi recebida."
+                },
+                "page": {
+                    "type": "integer",
+                    "description": "Número da página retornada.",
+                    "minimum": 1,
+                    "format": "int32"
+                },
+                "pageSize": {
+                    "type": "integer",
+                    "description": "Quantidade de compras na página retornada.",
+                    "minimum": 1,
+                    "format": "int32"
+                },
+                "limit": {
+                    "type": "integer",
+                    "description": "Quantidade máxima de compras requisitadas.",
+                    "format": "int32",
+                    "minimum": 1
+                },
+                "hasNextPage": {
+                    "type": "boolean",
+                    "description": "Flag indicando existência de próxima página."
+                },
+                "purchases": {
+                    "type": "array",
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "description": "Compras cadastradas retornadas na requisição.",
+                    "items": {
+                        "$ref": "#/definitions/purchasesItemDefinition"
+                    }
+                }
+            },
+            "required": [
+                "timestamp",
+                "page",
+                "pageSize",
+                "limit",
+                "hasNextPage",
+                "purchases"
+            ]
+        },
+        "purchasesItemDefinition": {
+            "title": "purchasesItemDefinition",
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Código da compra realizada.",
+                    "example": "E123J456",
+                    "minLength": 1
+                },
+                "amount": {
+                    "type": "number",
+                    "description": "Valor da compra realizada.",
+                    "minimum": 0.01,
+                    "format": "float"
+                },
+                "date": {
+                    "type": "string",
+                    "description": "Data da compra realizada.",
+                    "format": "date"
+                },
+                "purchaseStatus": {
+                    "type": "string",
+                    "description": "Status de cadastro da compra.",
+                    "enum": [
+                        "Em validação",
+                        "Aprovado",
+                        "Negado"
+                    ]
+                },
+                "cashback": {
+                    "type": "object",
+                    "required": [
+                        "percentage",
+                        "amount"
+                    ],
+                    "description": "Informações de cashback da compra.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "percentage": {
+                            "type": "number",
+                            "description": "Porcentagem de cashback da compra.",
+                            "format": "float"
+                        },
+                        "amount": {
+                            "type": "number",
+                            "description": "Valor de cashback da compra.",
+                            "format": "float"
+                        }
+                    }
+                }
+            },
+            "required": [
+                "code",
+                "amount",
+                "date",
+                "purchaseStatus",
+                "cashback"
+            ]
+        },
+        "getRetailerPurchases404Response": {
+            "title": "getRetailerPurchases404Response",
+            "type": "object",
+            "properties": {
+                "errorMessage": {
+                    "type": "string",
+                    "description": "Mensagem de erro.",
+                    "enum": [
+                        "Not found registered purchases for the retailer with the given filters"
                     ]
                 },
                 "timestamp": {
