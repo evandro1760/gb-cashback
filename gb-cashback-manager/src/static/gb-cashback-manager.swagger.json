@@ -84,7 +84,7 @@
         },
         "/v1/retailer/signup": {
             "post": {
-                "summary": "Cadastro de um novo Revendedor",
+                "summary": "Cadastrar um Revendedor",
                 "operationId": "post-v1-retailer-signup",
                 "responses": {
                     "201": {
@@ -156,7 +156,7 @@
                 "tags": [
                     "auth-operations"
                 ],
-                "description": "Cadastro de um novo Revendedor com nome completo, CPF, e-mail e senha.",
+                "description": "Cadastro de um Revendedor com nome completo, CPF, e-mail e senha.",
                 "parameters": [
                     {
                         "in": "body",
@@ -257,7 +257,7 @@
         "/v1/retailer/purchase": {
             "parameters": [],
             "post": {
-                "summary": "Cadastro de Compra do Revendedor",
+                "summary": "Cadastrar Compra do Revendedor",
                 "operationId": "post-v1-retailer-purchase",
                 "responses": {
                     "201": {
@@ -342,7 +342,7 @@
                 "tags": [
                     "purchase-operations"
                 ],
-                "description": "Cadastrar nova compra com código, valor e data da mesma. A compra será atribuída ao revendedor logado.",
+                "description": "Cadastrar compra com código, valor e data da mesma. A compra será atribuída ao revendedor logado.",
                 "security": [
                     {
                         "Authorization": []
@@ -464,7 +464,7 @@
                         "in": "query",
                         "name": "page",
                         "description": "Retornar compras de uma página",
-                        "format": "int64",
+                        "format": "int32",
                         "default": 1
                     },
                     {
@@ -473,7 +473,7 @@
                         "name": "limit",
                         "description": "Quantidade de compras retornadas por página",
                         "default": 50,
-                        "format": "int64"
+                        "format": "int32"
                     }
                 ]
             },
@@ -481,28 +481,15 @@
         },
         "/v1/retailer/cashback/balance": {
             "get": {
-                "summary": "Your GET endpoint",
+                "summary": "Retornar saldo de cashback do Revendedor",
                 "tags": [
                     "cashback-operations"
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Compra cadastrada com sucesso.",
+                    "200": {
+                        "description": "Saldo de cashback retornado com sucesso.",
                         "schema": {
-                            "$ref": "#/definitions/postRetailerPurchaseResponse"
-                        },
-                        "headers": {
-                            "transactionId": {
-                                "type": "string",
-                                "description": "ID da operação realizada. Útil para fins de depuração.",
-                                "format": "uuid"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Requisição contém algum valor inválido.",
-                        "schema": {
-                            "$ref": "#/definitions/postRetailerPurchase400Response"
+                            "$ref": "#/definitions/getRetailerCashbackBalanceResponse"
                         },
                         "headers": {
                             "transactionId": {
@@ -516,19 +503,6 @@
                         "description": "Token de sessão inválido.",
                         "schema": {
                             "$ref": "#/definitions/defaultError401Response"
-                        },
-                        "headers": {
-                            "transactionId": {
-                                "type": "string",
-                                "description": "ID da operação realizada. Útil para fins de depuração.",
-                                "format": "uuid"
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Uma compra com mesmo código já foi cadastrada.",
-                        "schema": {
-                            "$ref": "#/definitions/postRetailerPurchase409Response"
                         },
                         "headers": {
                             "transactionId": {
@@ -570,7 +544,8 @@
                     {
                         "Authorization": []
                     }
-                ]
+                ],
+                "description": "Retornar o saldo de cashback acumulado até o momento pelo vendedor. Este saldo é resultante da soma dos saldos de cashback na plataforma com o saldo advindo de API externa."
             }
         }
     },
@@ -1054,11 +1029,6 @@
             "type": "object",
             "description": "",
             "properties": {
-                "timestamp": {
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "Quando a requisição do usuário foi recebida."
-                },
                 "page": {
                     "type": "integer",
                     "description": "Número da página retornada.",
@@ -1092,7 +1062,6 @@
                 }
             },
             "required": [
-                "timestamp",
                 "page",
                 "pageSize",
                 "limit",
@@ -1186,6 +1155,38 @@
                 "errorMessage",
                 "timestamp",
                 "transactionId"
+            ]
+        },
+        "getRetailerCashbackBalanceResponse": {
+            "title": "getRetailerCashbackBalanceResponse",
+            "type": "object",
+            "properties": {
+                "accumulatedBalance": {
+                    "type": "number",
+                    "description": "Saldo de cashback acumulado pelas compras cadastradas na plataforma.",
+                    "example": 15.93,
+                    "minimum": 0,
+                    "format": "float"
+                },
+                "previousBalance": {
+                    "type": "number",
+                    "description": "Saldo de cashback retornado de API externa.",
+                    "format": "float",
+                    "example": 98.64,
+                    "minimum": 0
+                },
+                "totalBalance": {
+                    "type": "number",
+                    "description": "Saldo total de cashback até o momento da requisição.",
+                    "format": "float",
+                    "example": 114.57,
+                    "minimum": 0
+                }
+            },
+            "required": [
+                "accumulatedBalance",
+                "previousBalance",
+                "totalBalance"
             ]
         }
     },
