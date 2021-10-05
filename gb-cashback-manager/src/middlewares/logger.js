@@ -14,9 +14,9 @@ const logger = pino({
     },
     redact: {
         paths: [
-            'res.headers',
+            'res.headers.etag',
             'err.stack',
-            'req.headers["x-api-key"]',
+            'req.headers["Authorization"]',
         ],
         remove: true,
     },
