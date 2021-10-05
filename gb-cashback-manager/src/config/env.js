@@ -11,3 +11,8 @@ export const SERVER = {
     VERSION: version,
     DESC: description,
 };
+
+export const JWT = {
+    SECRET: process.env.JWT_SECRET,
+    EXPIRES_IN: process.env.JWT_EXPIRES_IN,
+};
