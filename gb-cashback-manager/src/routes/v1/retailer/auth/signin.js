@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import createError from 'http-errors';
 
 import PostSignInRequest from '../../../../requests/PostSignInRequest.js';
-import { database, retailer } from '../../../../database/index.js';
+import retailer from '../../../../database/models/retailer.js';
 import { JWT } from '../../../../config/env.js';
 
 const postSignIn = async (req, res, next) => {
@@ -12,7 +12,6 @@ const postSignIn = async (req, res, next) => {
         const request = new PostSignInRequest(req);
         const hashedPassword = SHA256(request.password).toString();
 
-        await database.sync();
         const user = await retailer.findOne({
             where: {
                 email: request.email,

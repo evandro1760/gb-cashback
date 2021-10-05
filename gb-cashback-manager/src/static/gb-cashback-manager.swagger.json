@@ -189,7 +189,7 @@
                     "400": {
                         "description": "Requisição contém algum valor inválido.",
                         "schema": {
-                            "$ref": "#/definitions/retailerSignUp400Response"
+                            "$ref": "#/definitions/retailerSignIn400Response"
                         },
                         "headers": {
                             "transactionId": {

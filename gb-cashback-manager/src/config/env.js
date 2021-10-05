@@ -14,5 +14,5 @@ export const SERVER = {
 
 export const JWT = {
     SECRET: process.env.JWT_SECRET,
-    EXPIRES_IN: process.env.JWT_EXPIRES_IN,
+    EXPIRES_IN: parseInt(process.env.JWT_EXPIRES_IN, 10),
 };
