@@ -82,7 +82,7 @@
                 "x-internal": false
             }
         },
-        "/v1/retailer/signup": {
+        "/v1/retailer/auth/signup": {
             "post": {
                 "summary": "Cadastrar um Revendedor",
                 "operationId": "post-v1-retailer-signup",
@@ -168,7 +168,7 @@
                 ]
             }
         },
-        "/v1/retailer/signin": {
+        "/v1/retailer/auth/signin": {
             "post": {
                 "summary": "Login de Revendedor",
                 "operationId": "post-v1-retailer-signin",
@@ -242,7 +242,7 @@
                 "tags": [
                     "auth-operations"
                 ],
-                "description": "Valida login de um revendedor com o seu CPF ou E-mail e senha.",
+                "description": "Valida login de um revendedor com o seu E-mail e senha.",
                 "parameters": [
                     {
                         "in": "body",
@@ -359,7 +359,7 @@
                 ]
             }
         },
-        "/v1/retailer/purchases": {
+        "/v1/retailer/purchase/list": {
             "get": {
                 "summary": "Listar Compras cadastradas pelo Revendedor",
                 "tags": [
@@ -787,10 +787,10 @@
             "title": "retailerSignInRequest",
             "type": "object",
             "properties": {
-                "username": {
+                "email": {
                     "type": "string",
-                    "description": "CPF ou E-mail do revendedor. O CPF deve ser válido e com qualquer separador entre os 11 digitos.",
-                    "example": "67176980047"
+                    "description": "E-mail do revendedor.",
+                    "example": "ana.souza@grupoboticario.com.br"
                 },
                 "password": {
                     "type": "string",
@@ -801,7 +801,7 @@
                 }
             },
             "required": [
-                "username",
+                "email",
                 "password"
             ]
         },
@@ -849,9 +849,7 @@
                     "type": "string",
                     "description": "Mensagem de erro.",
                     "enum": [
-                        "Invalid cpf format. Must be a string with a valid CPF at least 11 digits",
-                        "Invalid email format. Must be a string with a valid email",
-                        "Invalid password format. Must be a string with least 8 characters"
+                        "Invalid email or password format. email must be a string with a valid email and password must be a string with least 8 characters"
                     ]
                 },
                 "timestamp": {
