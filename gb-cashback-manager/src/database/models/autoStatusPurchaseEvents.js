@@ -4,6 +4,12 @@ import database from '../database.js';
 const { DataTypes } = pkg;
 
 const autoStatusPurchaseEvents = database.define('AUTO_STATUS_PURCHASE_EVENTS', {
+    idAutoStatus: {
+        type: DataTypes.BIGINT,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true,
+    },
     cpf: {
         type: DataTypes.STRING(11),
         allowNull: false,

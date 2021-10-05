@@ -933,21 +933,6 @@
                         "Successfully registered purchase"
                     ]
                 },
-                "purchaseStatus": {
-                    "type": "string",
-                    "description": "Status do cadastro da Compra.",
-                    "enum": [
-                        "Em validação",
-                        "Aprovado",
-                        "Negado"
-                    ]
-                },
-                "retailerCpf": {
-                    "type": "string",
-                    "description": "CPF do Revendedor que realizou o cadastro da Compra.",
-                    "minLength": 11,
-                    "example": "67176980047"
-                },
                 "timestamp": {
                     "type": "string",
                     "format": "date-time",
@@ -956,8 +941,6 @@
             },
             "required": [
                 "message",
-                "purchaseStatus",
-                "retailerCpf",
                 "timestamp"
             ]
         },
@@ -970,9 +953,7 @@
                     "type": "string",
                     "description": "Mensagem de erro.",
                     "enum": [
-                        "Invalid code format. Must be a string with least 1 character",
-                        "Invalid amount format. Must be a number greater than zero",
-                        "Invalid date format. Must be a valid date in format YYYY-MM-DD"
+                        "Invalid code (least 1 character), amount (number greater than zero) or date format (in format YYYY-MM-DD). Must be a string with least 1 character"
                     ]
                 },
                 "timestamp": {
