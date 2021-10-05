@@ -25,3 +25,8 @@ export const MYSQL = {
     PORT: parseInt(process.env.MYSQL_PORT, 10),
     LOGGING: process.env.MYSQL_LOGGING === 'true',
 };
+
+export const EXTERNAL_CASHBACK = {
+    HOST: process.env.EXTERNAL_CASHBACK_HOST,
+    ACCESS_TOKEN: process.env.EXTERNAL_CASHBACK_TOKEN,
+};
