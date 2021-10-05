@@ -1,4 +1,5 @@
 import express from 'express';
+import expressRequestId from 'express-request-id';
 
 import loggerMid, { logger } from './middlewares/logger.js';
 import timeoutMid from './middlewares/timeout.js';
@@ -14,6 +15,10 @@ import errorHandler from './middlewares/errorHandler.js';
 
 const initApp = ({ showLOG = false, serverTimeout = 30000 } = {}) => {
     const app = express();
+    app.use(expressRequestId({
+        headerName: 'transactionId',
+        attributeName: 'transactionId',
+    }));
     app.disable('x-powered-by');
     app.use(express.json());
     if (showLOG) app.use(loggerMid);
