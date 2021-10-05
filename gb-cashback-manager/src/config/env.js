@@ -16,3 +16,12 @@ export const JWT = {
     SECRET: process.env.JWT_SECRET,
     EXPIRES_IN: parseInt(process.env.JWT_EXPIRES_IN, 10),
 };
+
+export const MYSQL = {
+    DATABASE: process.env.MYSQL_DATABASE,
+    USER: process.env.MYSQL_USER,
+    PASSWORD: process.env.MYSQL_PASSWORD,
+    HOST: process.env.MYSQL_HOST,
+    PORT: parseInt(process.env.MYSQL_PORT, 10),
+    LOGGING: process.env.MYSQL_LOGGING === 'true',
+};
