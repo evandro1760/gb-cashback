@@ -1,0 +1,9 @@
+node_modules/
+.vscode/
+.old/
+.scannerwork
+lcov-report
+*.log
+*.7z
+*.zip
+*.txt
