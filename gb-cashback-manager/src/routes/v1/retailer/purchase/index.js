@@ -30,17 +30,20 @@ const postPurchase = async (req, res, next) => {
         if (autoStatusPurchase) {
             idStatus = autoStatusPurchase.idStatus;
         }
-        const insertedPurchase = await purchase.create({
-            code: request.code,
-            amount: request.amount,
-            date: request.date,
-            idRetailer: request.idRetailer,
-        }).catch((error) => {
+        let insertedPurchase;
+        try {
+            insertedPurchase = await purchase.create({
+                code: request.code,
+                amount: request.amount,
+                date: request.date,
+                idRetailer: request.idRetailer,
+            });
+        } catch (error) {
             if (error.errors[0].type === 'unique violation') {
                 throw createError(409, 'Already exists a purchase with the same code');
             }
             throw error;
-        });
+        }
         await statusPurchaseEvents.create({
             idPurchase: insertedPurchase.toJSON().idPurchase,
             idStatus,

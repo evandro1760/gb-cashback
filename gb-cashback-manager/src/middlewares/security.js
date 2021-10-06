@@ -19,7 +19,7 @@ router.use((request, response, next) => {
     try {
         request.session = jwt.verify(authorizationToken, JWT.SECRET);
     } catch (error) {
-        return next(createError(401, 'invalid credentials'));
+        return next(createError(401, 'Access token is invalid or expired'));
     }
     return next();
 });
