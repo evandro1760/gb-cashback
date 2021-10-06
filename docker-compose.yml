@@ -10,6 +10,24 @@ services:
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  gb-cashback-manager:
+    build: ./gb-cashback-manager
+    links:
+      - mysql
+    ports:
+      - 9000:9000
+    environment:
+      - TIMEOUT=${API_TIMEOUT}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_LOGGING=${MYSQL_LOGGING}
+      - EXTERNAL_CASHBACK_HOST=${EXTERNAL_CASHBACK_HOST}
+      - EXTERNAL_CASHBACK_TOKEN=${EXTERNAL_CASHBACK_TOKEN}
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.1.1
     links:
