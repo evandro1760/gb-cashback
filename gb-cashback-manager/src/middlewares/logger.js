@@ -16,7 +16,7 @@ const logger = pino({
         paths: [
             'res.headers.etag',
             'err.stack',
-            'req.headers["Authorization"]',
+            'req.headers.authorization',
         ],
         remove: true,
     },

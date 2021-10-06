@@ -1,4 +1,4 @@
-const isCPFValid = (cpf) => {
+export const isCPFValid = (cpf) => {
     const strCPF = cpf?.replace(/\D/g, '');
     if (!strCPF || strCPF.length !== 11 || strCPF === '00000000000') {
         return false;
@@ -26,4 +26,8 @@ const isCPFValid = (cpf) => {
     return rest === parseInt(strCPF.substring(10, 11), 10);
 };
 
-export default isCPFValid;
+export const cashbackPercentage = (amount) => {
+    if (amount < 1000) return 0.1;
+    if (amount >= 1000 && amount <= 1500) return 0.15;
+    return 0.2;
+};

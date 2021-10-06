@@ -12,9 +12,10 @@ const postPurchase = async (req, res, next) => {
     try {
         const request = new PostPurchase(req);
         let idStatus = 1;
+        const keyMapping = { targetKey: 'cpf', foreignKey: 'cpf' };
 
-        retailer.hasOne(autoStatusPurchaseEvents, { targetKey: 'cpf', foreignKey: 'cpf' });
-        autoStatusPurchaseEvents.belongsTo(retailer, { targetKey: 'cpf', foreignKey: 'cpf' });
+        retailer.hasOne(autoStatusPurchaseEvents, keyMapping);
+        autoStatusPurchaseEvents.belongsTo(retailer, keyMapping);
 
         const autoStatusPurchase = await autoStatusPurchaseEvents.findOne({
             attributes: ['cpf', 'idStatus'],

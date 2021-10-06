@@ -439,43 +439,7 @@
                     }
                 ],
                 "description": "Listar compras cadastradas retornando código, status, valor, porcentagem e valor de cashback.",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "in": "query",
-                        "name": "code",
-                        "description": "Filtrar compras pelo código"
-                    },
-                    {
-                        "type": "string",
-                        "in": "query",
-                        "name": "date",
-                        "description": "Filtrar compras por uma data no formato AAAA-MM-DD",
-                        "format": "date"
-                    },
-                    {
-                        "type": "string",
-                        "in": "query",
-                        "name": "status",
-                        "description": "Filtrar compras por status de cadastro"
-                    },
-                    {
-                        "type": "integer",
-                        "in": "query",
-                        "name": "page",
-                        "description": "Retornar compras de uma página",
-                        "format": "int32",
-                        "default": 1
-                    },
-                    {
-                        "type": "integer",
-                        "in": "query",
-                        "name": "limit",
-                        "description": "Quantidade de compras retornadas por página",
-                        "default": 50,
-                        "format": "int32"
-                    }
-                ]
+                "parameters": []
             },
             "parameters": []
         },
@@ -1006,28 +970,6 @@
             "type": "object",
             "description": "",
             "properties": {
-                "page": {
-                    "type": "integer",
-                    "description": "Número da página retornada.",
-                    "minimum": 1,
-                    "format": "int32"
-                },
-                "pageSize": {
-                    "type": "integer",
-                    "description": "Quantidade de compras na página retornada.",
-                    "minimum": 1,
-                    "format": "int32"
-                },
-                "limit": {
-                    "type": "integer",
-                    "description": "Quantidade máxima de compras requisitadas.",
-                    "format": "int32",
-                    "minimum": 1
-                },
-                "hasNextPage": {
-                    "type": "boolean",
-                    "description": "Flag indicando existência de próxima página."
-                },
                 "purchases": {
                     "type": "array",
                     "minItems": 1,
@@ -1039,10 +981,6 @@
                 }
             },
             "required": [
-                "page",
-                "pageSize",
-                "limit",
-                "hasNextPage",
                 "purchases"
             ]
         },
@@ -1114,7 +1052,7 @@
                     "type": "string",
                     "description": "Mensagem de erro.",
                     "enum": [
-                        "Not found registered purchases for the retailer with the given filters"
+                        "Not found registered purchases for the retailer"
                     ]
                 },
                 "timestamp": {

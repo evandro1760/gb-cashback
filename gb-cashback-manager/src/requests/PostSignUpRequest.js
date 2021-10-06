@@ -2,7 +2,7 @@ import { validate } from 'jsonschema';
 import createError from 'http-errors';
 
 import openApiDefinition from '../static/openApiDefinition.js';
-import isCPFValid from '../components/formatUtils.js';
+import { isCPFValid } from '../components/utils.js';
 
 export default class PostSignInRequest {
     constructor(request) {
