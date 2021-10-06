@@ -11,6 +11,8 @@ router.use((request, response, next) => {
         '/actuator/health',
         '/v1/retailer/auth/signin',
         '/v1/retailer/auth/signup',
+        '/docs/openapi',
+        '/docs/swagger-ui',
     ].includes(request.url);
     if (inWhiteList) {
         return next();
