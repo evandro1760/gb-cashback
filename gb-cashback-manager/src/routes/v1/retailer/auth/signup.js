@@ -15,19 +15,20 @@ const postSignUp = async (req, res, next) => {
         const previousCashbackBalance = await externalCashbackResult
             .retailerCashbackCredit(request.cpf);
 
-        await retailer.create({
-            name: request.name,
-            cpf: request.cpf,
-            email: request.email,
-            hashedPassword,
-            previousCashbackBalance,
-        }).catch((error) => {
+        try {
+            await retailer.create({
+                name: request.name,
+                cpf: request.cpf,
+                email: request.email,
+                hashedPassword,
+                previousCashbackBalance,
+            });
+        } catch (error) {
             if (error.errors[0].type === 'unique violation') {
                 throw createError(409, 'Already exists a user with the same cpf or email');
             }
             throw error;
-        });
-
+        }
         return res.status(201).json({
             message: 'Successfully registered retailer',
             timestamp: request.timestamp,
